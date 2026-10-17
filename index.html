@@ -64,6 +64,14 @@ dialog::backdrop{background:rgba(18,39,63,.55)}
 .specs span{background:#eef3f9;border-radius:10px;padding:6px 12px;font-weight:700;font-size:14px}
 .x{position:absolute;top:10px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:#fff;font-size:20px;cursor:pointer;font-weight:800}
 dialog{position:relative}
+.stats{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 2px;color:var(--navy)}
+.st{display:inline-flex;align-items:center;gap:5px;font-weight:700;font-size:14px}
+.stats.big .st{font-size:16px;background:#eef3f9;border-radius:10px;padding:6px 12px}
+.am{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.am span{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-weight:700;font-size:14px;color:var(--navy)}
+.am span.pl{border-style:dashed;color:var(--muted)}
+.acts{display:flex;flex-wrap:wrap;gap:8px}.acts .btn.alt{margin-left:0}
+dialog.small{max-width:420px}
 footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16px;font-size:14px}
 </style>
 </head>
@@ -81,7 +89,7 @@ footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16p
 
 <main class="wrap">
   <h2 id="propiedades">Propiedades</h2>
-  <div class="note">La primera propiedad es real; las demás son ejemplos de muestra. Escríbenos para conocer más.</div>
+  <div class="note">Las dos primeras propiedades son reales; las demás son ejemplos de muestra. Escríbenos para conocer más.</div>
   <div class="tabs">
     <button class="on" data-f="todas">Todas</button><button data-f="venta">Venta</button><button data-f="renta">Renta</button>
   </div>
@@ -91,7 +99,7 @@ footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16p
   <div class="contact">
     <div class="box">
       <h3 style="margin-top:0">Escríbenos</h3>
-      <p><a class="btn" href="https://wa.me/525585778281" target="_blank" rel="noopener">WhatsApp</a></p>
+      <p><a class="btn" id="wag" href="https://wa.me/525585778281" target="_blank" rel="noopener">WhatsApp</a></p>
       <p>Teléfono: <a href="tel:+525585778281">55 8577 8281</a></p>
       <p>Correo: <a href="mailto:aliciadelaparra@gmail.com">aliciadelaparra@gmail.com</a></p>
       <p class="muted">Ciudad de México</p>
@@ -114,48 +122,94 @@ footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16p
 <dialog id="dlg"><button class="x" aria-label="Cerrar" onclick="dlg.close()">×</button>
   <div class="m-ph" id="mp"></div><div class="m-th" id="mt"></div>
   <div class="m-b"><span class="tag" id="mg"></span><h3 id="mn"></h3><div class="price" id="mpr"></div>
-   <div class="specs" id="ms"></div><p id="md"></p>
-   <a class="btn" id="mw" target="_blank" rel="noopener">Preguntar por WhatsApp</a> <a class="btn alt" id="mpdf" target="_blank" rel="noopener" hidden>Descargar ficha PDF</a></div></dialog>
+   <div class="stats big" id="mst"></div><div class="am" id="mam"></div><p id="md"></p>
+   <div class="acts"><button class="btn" id="mw" type="button">Preguntar por WhatsApp</button> <a class="btn alt" id="mpdf" target="_blank" rel="noopener" hidden>Descargar ficha PDF</a> <button class="btn alt" id="mcp" type="button">Copiar link</button></div></div></dialog>
+
+<dialog id="wad" class="small"><button class="x" aria-label="Cerrar" onclick="wad.close()">×</button>
+  <form id="waf" class="m-b"><h3 style="margin-top:0">¿Cómo te llamas?</h3><p class="muted" id="wat"></p>
+   <div><label for="wan">Tu nombre</label><input id="wan" maxlength="80" required autocomplete="given-name"></div>
+   <input id="wah" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+   <button class="btn" type="submit">Abrir WhatsApp</button>
+   <p class="muted" style="font-size:12px;margin:0">Guardamos tu nombre y la propiedad que te interesa solo para atenderte. No lo compartimos con terceros.</p></form></dialog>
 
 <footer>© tük · Servicios inmobiliarios · inmobiliariatuk.homes</footer>
 
 <script>
-var WA='525585778281';
+var WA='525585778281',SITE='https://inmobiliariatuk.homes/';
+var SB_URL='https://axonahsyuxdpbudxeewy.supabase.co',SB_KEY='sb_publishable_tEnpUNErB7moOu1KMUxobw_ZUG2Ib4Y';
+var IC={
+ rec:'<path d="M3 19V6M3 14h18v5M21 14v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="10.5" r="1.6"/>',
+ banos:'<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4zM6 12V6a2 2 0 0 1 3.5-1.3M7.5 19 7 21M16.5 19l.5 2"/>',
+ est:'<path d="M5 16v-4l2-5h10l2 5v4M3 16h18M7 16v2M17 16v2"/><circle cx="8" cy="13" r=".9"/><circle cx="16" cy="13" r=".9"/>',
+ m2:'<path d="M4 9V4h5M20 15v5h-5M4 4l6 6M20 20l-6-6"/>',
+ alberca:'<path d="M8 4v10M15 4v10M8 7h7M8 11h7M3 17c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1M3 21c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1"/>',
+ gimnasio:'<path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"/>',
+ ninos:'<rect x="4" y="12" width="7" height="7"/><rect x="13" y="12" width="7" height="7"/><rect x="8.5" y="5" width="7" height="7"/>',
+ salon:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 5.3a3 3 0 0 1 0 5.4M17 14a6 6 0 0 1 4 6"/>',
+ bodega:'<path d="M3 8l9-4 9 4v10l-9 4-9-4zM3 8l9 4 9-4M12 12v10"/>'
+};
+function ic(k){return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[k]+'</svg>'}
+var AM={alberca:'Alberca',gimnasio:'Gimnasio',ninos:'Salón de niños',salon:'Salón de usos múltiples',bodega:'Bodega'};
+var FOTOS=[]; for(var q=1;q<=14;q++)FOTOS.push('img/props/tres-cumbres/'+(q<10?'0':'')+q+'.jpg');
 var P=[
- {id:'tres-cumbres',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe · 200 m²',p:'$10,300,000',zona:'Álvaro Obregón, CDMX',
-  d:'4 recámaras · 4 baños (1 medio) · 2 estac. · 200 m²',
-  specs:['4 recámaras','4 baños (1 medio)','2 estacionamientos','200 m² construcción','200 m² terreno','6 años de antigüedad','Bodega'],
+ {id:'tres-cumbres-200',ref:'TUK-001',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe · 200 m²',p:'$10,300,000',zona:'Álvaro Obregón, CDMX',
+  rec:'4',banos:'4 (1 medio)',est:'2',m2:'200 m²',amen:['alberca','gimnasio','ninos','salon','bodega'],
+  extra:['200 m² de terreno','6 años de antigüedad'],
   desc:'Departamento amplio y moderno, bien orientado, con luz natural y sol en cada ventana. Estancia amplia con balcón, sala, comedor, espacio para TV o home office, cocina abierta con despensa y área de lavandería. Dos recámaras con baño y clóset, y la principal con vestidor y baño completo. Cuarto de servicio con baño, entrada principal y de servicio. Amenidades en la misma torre.',
-  fotos:["img/props/tres-cumbres/01.jpg", "img/props/tres-cumbres/02.jpg", "img/props/tres-cumbres/03.jpg", "img/props/tres-cumbres/04.jpg", "img/props/tres-cumbres/05.jpg", "img/props/tres-cumbres/06.jpg", "img/props/tres-cumbres/07.jpg", "img/props/tres-cumbres/08.jpg", "img/props/tres-cumbres/09.jpg", "img/props/tres-cumbres/10.jpg", "img/props/tres-cumbres/11.jpg", "img/props/tres-cumbres/12.jpg", "img/props/tres-cumbres/13.jpg", "img/props/tres-cumbres/14.jpg"],pdf:'fichas/ficha-tres-cumbres-200.pdf'},
-{id:'tres-cumbres-145',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe · 145 m²',p:'$7,890,000',zona:'Álvaro Obregón, CDMX',
-  d:'145 m² · Santa Fe · Álvaro Obregón',
-  specs:['145 m² construcción','Amenidades en la torre'],
-  desc:"Departamento en Santa Fe con amenidades en la torre: alberca techada, gimnasio, salón de niños y salón de usos múltiples. Escríbenos para conocer la distribución y agendar una visita.",
-  fotos:["img/props/tres-cumbres/01.jpg", "img/props/tres-cumbres/02.jpg", "img/props/tres-cumbres/03.jpg", "img/props/tres-cumbres/04.jpg", "img/props/tres-cumbres/05.jpg", "img/props/tres-cumbres/06.jpg", "img/props/tres-cumbres/07.jpg", "img/props/tres-cumbres/08.jpg", "img/props/tres-cumbres/09.jpg", "img/props/tres-cumbres/10.jpg", "img/props/tres-cumbres/11.jpg", "img/props/tres-cumbres/12.jpg", "img/props/tres-cumbres/13.jpg", "img/props/tres-cumbres/14.jpg"],pdf:'fichas/ficha-tres-cumbres-145.pdf'},
- {t:'renta',n:'Departamento en Roma Norte',p:'$22,000 / mes',d:'1 recámara · 60 m²',muestra:1},
- {t:'venta',n:'Casa en Coyoacán',p:'$9,800,000',d:'3 recámaras · 190 m²',muestra:1},
- {t:'renta',n:'Estudio en Polanco',p:'$18,500 / mes',d:'Amueblado · 45 m²',muestra:1}];
-var L=document.getElementById('lista'),m=document.getElementById('dlg');
+  fotos:FOTOS,pdf:'fichas/ficha-tres-cumbres-200.pdf'},
+ {id:'tres-cumbres-145',ref:'TUK-002',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe · 145 m²',p:'$7,890,000',zona:'Álvaro Obregón, CDMX',
+  m2:'145 m²',amen:['alberca','gimnasio','ninos','salon'],extra:[],
+  desc:'Departamento en Santa Fe con amenidades en la torre: alberca techada, gimnasio, salón de niños y salón de usos múltiples. Escríbenos para conocer la distribución y agendar una visita.',
+  fotos:FOTOS,pdf:'fichas/ficha-tres-cumbres-145.pdf'},
+ {t:'renta',n:'Departamento en Roma Norte',p:'$22,000 / mes',rec:'1',m2:'60 m²',muestra:1},
+ {t:'venta',n:'Casa en Coyoacán',p:'$9,800,000',rec:'3',m2:'190 m²',muestra:1},
+ {t:'renta',n:'Estudio en Polanco',p:'$18,500 / mes',m2:'45 m²',muestra:1}];
+var L=document.getElementById('lista'),m=document.getElementById('dlg'),wad=document.getElementById('wad'),cur=null;
 function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function stats(x){return ['rec','banos','est','m2'].filter(function(k){return x[k]}).map(function(k){return '<span class="st" title="'+({rec:'Recámaras',banos:'Baños',est:'Estacionamientos',m2:'Construcción'})[k]+'">'+ic(k)+esc(x[k])+'</span>'}).join('')}
 function draw(f){L.innerHTML=P.map(function(x,i){return [x,i]}).filter(function(a){return f=='todas'||a[0].t==f}).map(function(a){var x=a[0],i=a[1];
  var ph=x.fotos&&x.fotos.length?'<div class="ph" style="background-image:url(\''+esc(x.fotos[0])+'\')"></div>':'<div class="ph">Foto</div>';
- return '<div class="card" data-i="'+i+'">'+ph+'<div class="b"><span class="tag">'+(x.t=='venta'?'Venta':'Renta')+(x.muestra?' · muestra':'')+'</span><h3>'+esc(x.n)+'</h3><div class="price">'+esc(x.p)+'</div><div class="muted">'+esc(x.d)+'</div>'+(x.muestra?'':'<span class="ver">Ver detalles →</span>')+'</div></div>'}).join('')}
+ return '<div class="card" data-i="'+i+'">'+ph+'<div class="b"><span class="tag">'+(x.t=='venta'?'Venta':'Renta')+(x.muestra?' · muestra':'')+'</span><h3>'+esc(x.n)+'</h3><div class="price">'+esc(x.p)+'</div><div class="stats">'+stats(x)+'</div>'+(x.muestra?'':'<span class="ver">Ver detalles →</span>')+'</div></div>'}).join('')}
 draw('todas');
-function show(i){var x=P[i];if(x.muestra)return;
+function show(i){var x=P[i];if(x.muestra)return;cur=x;
  var mp=document.getElementById('mp'),mt=document.getElementById('mt');
  function foto(u){mp.style.backgroundImage=u?'url("'+u+'")':'';mp.textContent=u?'':'Fotos próximamente'}
  foto(x.fotos&&x.fotos[0]);
  mt.innerHTML=(x.fotos&&x.fotos.length>1)?x.fotos.map(function(u,k){return '<img src="'+esc(u)+'" alt="Foto '+(k+1)+'" class="'+(k?'':'on')+'">'}).join(''):'';
  mt.onclick=function(e){if(e.target.tagName=='IMG'){foto(e.target.getAttribute('src'));[].forEach.call(mt.children,function(c){c.classList.remove('on')});e.target.classList.add('on')}};
- document.getElementById('mg').textContent=(x.t=='venta'?'Venta':'Renta')+' · '+x.zona;
+ document.getElementById('mg').textContent=(x.t=='venta'?'Venta':'Renta')+' · '+x.zona+' · Ref. '+x.ref;
  document.getElementById('mn').textContent=x.n;document.getElementById('mpr').textContent=x.p;
- document.getElementById('ms').innerHTML=x.specs.map(function(t){return '<span>'+esc(t)+'</span>'}).join('');
+ document.getElementById('mst').innerHTML=stats(x);
+ document.getElementById('mam').innerHTML=(x.amen||[]).map(function(k){return '<span>'+ic(k)+AM[k]+'</span>'}).join('')+(x.extra||[]).map(function(t){return '<span class="pl">'+esc(t)+'</span>'}).join('');
  document.getElementById('md').textContent=x.desc;
- document.getElementById('mw').href='https://wa.me/'+WA+'?text='+encodeURIComponent('Hola, me interesa: '+x.n+' ('+x.p+')');
  var pf=document.getElementById('mpdf');pf.hidden=!x.pdf;if(x.pdf)pf.href=x.pdf;
- m.showModal()}
+ document.getElementById('mcp').textContent='Copiar link';
+ try{history.replaceState(null,'','#'+x.id)}catch(e){}
+ if(!m.open)m.showModal()}
+function byHash(){var h=location.hash.slice(1);for(var i=0;i<P.length;i++)if(P[i].id==h){show(i);return}}
+byHash();window.addEventListener('hashchange',function(){if(m.open&&cur&&location.hash.slice(1)==cur.id)return;byHash()});
+m.addEventListener('close',function(){cur=null;try{history.replaceState(null,'','#propiedades')}catch(e){}});
 L.onclick=function(e){var c=e.target.closest('.card');if(c)show(+c.dataset.i)};
 m.onclick=function(e){if(e.target===m)m.close()};
+document.getElementById('mcp').onclick=function(){var u=SITE+'#'+cur.id,b=this;
+ (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){b.textContent='¡Link copiado!'},function(){prompt('Copia este link:',u)})};
+var waProp=null;
+function askWA(x){waProp=x||null;
+ document.getElementById('wat').textContent=x?'Te abrimos WhatsApp para preguntar por '+x.n:'Te abrimos WhatsApp para atenderte';
+ var n=document.getElementById('wan');try{n.value=localStorage.getItem('tuk_nombre')||''}catch(e){}
+ wad.showModal();n.focus()}
+document.getElementById('mw').onclick=function(){askWA(cur)};
+document.getElementById('wag').onclick=function(e){e.preventDefault();askWA(null)};
+wad.onclick=function(e){if(e.target===wad)wad.close()};
+document.getElementById('waf').onsubmit=function(e){e.preventDefault();
+ var name=document.getElementById('wan').value.trim().slice(0,80);if(!name)return;
+ try{localStorage.setItem('tuk_nombre',name)}catch(_){}
+ var x=waProp,txt=x?'Hola Alicia, soy '+name+'. Me interesa '+x.n+' ('+x.p+', ref. '+x.ref+').\n'+SITE+'#'+x.id:'Hola Alicia, soy '+name+'. Me gustaría información sobre sus propiedades.';
+ if(!document.getElementById('wah').value){
+  try{fetch(SB_URL+'/rest/v1/leads',{method:'POST',keepalive:true,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+   body:JSON.stringify({nombre:name,propiedad_ref:x?x.ref:null,propiedad_titulo:x?x.n:null,link:x?SITE+'#'+x.id:null,origen:'whatsapp'})}).catch(function(){})}catch(_){}}
+ var url='https://wa.me/'+WA+'?text='+encodeURIComponent(txt);
+ var w=window.open(url,'_blank');if(!w)location.href=url;wad.close()};
 document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){
  document.querySelectorAll('.tabs button').forEach(function(o){o.classList.remove('on')});b.classList.add('on');draw(b.dataset.f)}});
 document.getElementById('f').onsubmit=function(e){e.preventDefault();var f=e.target,d=new FormData(f);d.append('_subject','Nuevo mensaje desde inmobiliariatuk.homes');d.append('_captcha','false');
