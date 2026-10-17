@@ -48,6 +48,22 @@ h2{font-size:28px;margin:48px 0 16px}
 form{display:grid;gap:12px}
 input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
 label{font-weight:700;font-size:14px}
+.card{cursor:pointer;transition:box-shadow .15s}
+.card:hover{box-shadow:0 6px 18px rgba(18,39,63,.12)}
+.card .ver{display:inline-block;margin-top:8px;font-weight:800;font-size:14px;color:var(--navy)}
+.ph{background-size:cover;background-position:center}
+dialog{border:0;border-radius:18px;padding:0;max-width:640px;width:calc(100% - 24px);max-height:92vh;overflow:auto;color:var(--navy-d)}
+dialog::backdrop{background:rgba(18,39,63,.55)}
+.m-ph{height:260px;background:linear-gradient(135deg,#c9d6e6,#e8eef6);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+.m-th{display:flex;gap:6px;padding:8px 20px 0;overflow-x:auto}
+.m-th img{height:52px;border-radius:8px;cursor:pointer;border:2px solid transparent}
+.m-th img.on{border-color:var(--navy)}
+.m-b{padding:16px 20px 22px}
+.m-b h3{margin:8px 0 4px;font-size:22px}
+.specs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.specs span{background:#eef3f9;border-radius:10px;padding:6px 12px;font-weight:700;font-size:14px}
+.x{position:absolute;top:10px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:#fff;font-size:20px;cursor:pointer;font-weight:800}
+dialog{position:relative}
 footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16px;font-size:14px}
 </style>
 </head>
@@ -95,19 +111,46 @@ footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16p
   </div>
 </main>
 
+<dialog id="dlg"><button class="x" aria-label="Cerrar" onclick="dlg.close()">×</button>
+  <div class="m-ph" id="mp"></div><div class="m-th" id="mt"></div>
+  <div class="m-b"><span class="tag" id="mg"></span><h3 id="mn"></h3><div class="price" id="mpr"></div>
+   <div class="specs" id="ms"></div><p id="md"></p>
+   <a class="btn" id="mw" target="_blank" rel="noopener">Preguntar por WhatsApp</a> <a class="btn alt" id="mpdf" target="_blank" rel="noopener" hidden>Descargar ficha PDF</a></div></dialog>
+
 <footer>© tük · Servicios inmobiliarios · inmobiliariatuk.homes</footer>
 
 <script>
+var WA='525585778281';
 var P=[
- {t:'venta',n:'Departamento en Tres Cumbres, Santa Fe',p:'$10,300,000',d:'4 recámaras · 4 baños (1 medio) · 2 estac. · 200 m² · Álvaro Obregón'},
- {t:'venta',n:'Departamento en la Condesa',p:'$5,200,000',d:'2 recámaras · 85 m²'},
- {t:'renta',n:'Departamento en Roma Norte',p:'$22,000 / mes',d:'1 recámara · 60 m²'},
- {t:'venta',n:'Casa en Coyoacán',p:'$9,800,000',d:'3 recámaras · 190 m²'},
- {t:'renta',n:'Estudio en Polanco',p:'$18,500 / mes',d:'Amueblado · 45 m²'}];
-var L=document.getElementById('lista');
-function draw(f){L.innerHTML=P.filter(function(x){return f=='todas'||x.t==f}).map(function(x){
- return '<div class="card"><div class="ph">Foto</div><div class="b"><span class="tag">'+(x.t=='venta'?'Venta':'Renta')+'</span><h3>'+x.n+'</h3><div class="price">'+x.p+'</div><div class="muted">'+x.d+'</div></div></div>'}).join('')}
+ {id:'tres-cumbres',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe',p:'$10,300,000',zona:'Álvaro Obregón, CDMX',
+  d:'4 recámaras · 4 baños (1 medio) · 2 estac. · 200 m²',
+  specs:['4 recámaras','4 baños (1 medio)','2 estacionamientos','200 m² construcción','200 m² terreno','6 años de antigüedad','Bodega'],
+  desc:'Departamento amplio y moderno, bien orientado, con luz natural y sol en cada ventana. Estancia amplia con balcón, sala, comedor, espacio para TV o home office, cocina abierta con despensa y área de lavandería. Dos recámaras con baño y clóset, y la principal con vestidor y baño completo. Cuarto de servicio con baño, entrada principal y de servicio. Amenidades en la misma torre.',
+  fotos:[],pdf:'fichas/ficha-tres-cumbres.pdf'},
+ {t:'renta',n:'Departamento en Roma Norte',p:'$22,000 / mes',d:'1 recámara · 60 m²',muestra:1},
+ {t:'venta',n:'Casa en Coyoacán',p:'$9,800,000',d:'3 recámaras · 190 m²',muestra:1},
+ {t:'renta',n:'Estudio en Polanco',p:'$18,500 / mes',d:'Amueblado · 45 m²',muestra:1}];
+var L=document.getElementById('lista'),m=document.getElementById('dlg');
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function draw(f){L.innerHTML=P.map(function(x,i){return [x,i]}).filter(function(a){return f=='todas'||a[0].t==f}).map(function(a){var x=a[0],i=a[1];
+ var ph=x.fotos&&x.fotos.length?'<div class="ph" style="background-image:url(\''+esc(x.fotos[0])+'\')"></div>':'<div class="ph">Foto</div>';
+ return '<div class="card" data-i="'+i+'">'+ph+'<div class="b"><span class="tag">'+(x.t=='venta'?'Venta':'Renta')+(x.muestra?' · muestra':'')+'</span><h3>'+esc(x.n)+'</h3><div class="price">'+esc(x.p)+'</div><div class="muted">'+esc(x.d)+'</div>'+(x.muestra?'':'<span class="ver">Ver detalles →</span>')+'</div></div>'}).join('')}
 draw('todas');
+function show(i){var x=P[i];if(x.muestra)return;
+ var mp=document.getElementById('mp'),mt=document.getElementById('mt');
+ function foto(u){mp.style.backgroundImage=u?'url("'+u+'")':'';mp.textContent=u?'':'Fotos próximamente'}
+ foto(x.fotos&&x.fotos[0]);
+ mt.innerHTML=(x.fotos&&x.fotos.length>1)?x.fotos.map(function(u,k){return '<img src="'+esc(u)+'" alt="Foto '+(k+1)+'" class="'+(k?'':'on')+'">'}).join(''):'';
+ mt.onclick=function(e){if(e.target.tagName=='IMG'){foto(e.target.getAttribute('src'));[].forEach.call(mt.children,function(c){c.classList.remove('on')});e.target.classList.add('on')}};
+ document.getElementById('mg').textContent=(x.t=='venta'?'Venta':'Renta')+' · '+x.zona;
+ document.getElementById('mn').textContent=x.n;document.getElementById('mpr').textContent=x.p;
+ document.getElementById('ms').innerHTML=x.specs.map(function(t){return '<span>'+esc(t)+'</span>'}).join('');
+ document.getElementById('md').textContent=x.desc;
+ document.getElementById('mw').href='https://wa.me/'+WA+'?text='+encodeURIComponent('Hola, me interesa: '+x.n+' ('+x.p+')');
+ var pf=document.getElementById('mpdf');pf.hidden=!x.pdf;if(x.pdf)pf.href=x.pdf;
+ m.showModal()}
+L.onclick=function(e){var c=e.target.closest('.card');if(c)show(+c.dataset.i)};
+m.onclick=function(e){if(e.target===m)m.close()};
 document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){
  document.querySelectorAll('.tabs button').forEach(function(o){o.classList.remove('on')});b.classList.add('on');draw(b.dataset.f)}});
 document.getElementById('f').onsubmit=function(e){e.preventDefault();var f=e.target,d=new FormData(f);d.append('_subject','Nuevo mensaje desde inmobiliariatuk.homes');d.append('_captcha','false');
