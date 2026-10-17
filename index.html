@@ -64,6 +64,10 @@ dialog::backdrop{background:rgba(18,39,63,.55)}
 .specs span{background:#eef3f9;border-radius:10px;padding:6px 12px;font-weight:700;font-size:14px}
 .x{position:absolute;top:10px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:#fff;font-size:20px;cursor:pointer;font-weight:800}
 dialog{position:relative}
+.filters{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:10px}
+@media(min-width:760px){.filters{grid-template-columns:2fr 1.2fr 1fr 1fr auto;align-items:center}}
+.lnk{background:none;border:0;color:var(--navy);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer;padding:6px}
+.empty{grid-column:1/-1;text-align:center;padding:30px 10px;color:var(--muted)}
 .stats{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 2px;color:var(--navy)}
 .st{display:inline-flex;align-items:center;gap:5px;font-weight:700;font-size:14px}
 .stats.big .st{font-size:16px;background:#eef3f9;border-radius:10px;padding:6px 12px}
@@ -73,12 +77,18 @@ dialog{position:relative}
 .acts{display:flex;flex-wrap:wrap;gap:8px}.acts .btn.alt{margin-left:0}
 dialog.small{max-width:420px}
 footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16px;font-size:14px}
+.dream{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-top:28px}
+.dream h3{margin:0 0 4px}.dream p{margin:0;color:var(--muted)}
+.about{display:grid;gap:22px;grid-template-columns:1fr;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;align-items:center}
+.about img{width:100%;max-width:300px;border-radius:14px;justify-self:center}
+.about h3{margin:0}
+@media(min-width:760px){.about{grid-template-columns:300px 1fr}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
   <img src="img/logo-sm.png" alt="tük servicios inmobiliarios">
-  <nav><a href="#propiedades">Propiedades</a><a href="#contacto">Contacto</a></nav>
+  <nav><a href="#propiedades">Propiedades</a><a href="#quienes">Quiénes somos</a><a href="#contacto">Contacto</a></nav>
 </div></header>
 
 <section class="hero"><div class="wrap">
@@ -93,7 +103,29 @@ footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16p
   <div class="tabs">
     <button class="on" data-f="todas">Todas</button><button data-f="venta">Venta</button><button data-f="renta">Renta</button>
   </div>
+  <div class="filters">
+    <input id="fq" type="search" placeholder="Buscar por zona o nombre" aria-label="Buscar">
+    <select id="fz" aria-label="Zona"><option value="">Todas las zonas</option></select>
+    <select id="fr" aria-label="Recámaras"><option value="0">Recámaras</option><option value="1">1 o más</option><option value="2">2 o más</option><option value="3">3 o más</option><option value="4">4 o más</option></select>
+    <select id="fp" aria-label="Precio máximo" hidden></select>
+    <button type="button" id="fx" class="lnk" hidden>Limpiar filtros</button>
+  </div>
+  <p class="muted" id="fc" aria-live="polite"></p>
   <div class="grid" id="lista"></div>
+
+  <div class="dream"><div><h3>¿No encuentras lo que buscas?</h3><p>Cuéntanos qué necesitas y te ayudamos a encontrar tu propiedad de ensueño.</p></div><a class="btn" href="#contacto" id="dreamb">Contáctame para buscar mi propiedad</a></div>
+
+  <h2 id="quienes">Quiénes somos</h2>
+  <div class="about">
+    <img src="img/alicia.jpg" alt="Alicia de la Parra" loading="lazy">
+    <div>
+      <h3>Alicia de la Parra</h3>
+      <p class="muted">Asesora inmobiliaria · 12 años de experiencia</p>
+      <p>En tük acompañamos a cada familia de principio a fin, ya sea para comprar, vender o rentar en la Ciudad de México. Con 12 años de experiencia, Alicia te escucha, entiende lo que necesitas y te guía con trato cercano y claridad en cada paso.</p>
+      <p>Aquí no eres un número: cada propiedad y cada persona recibe atención personal.</p>
+      <a class="btn" href="#contacto">Hablemos</a>
+    </div>
+  </div>
 
   <h2 id="contacto">Contacto</h2>
   <div class="contact">
@@ -152,25 +184,50 @@ function ic(k){return '<svg viewBox="0 0 24 24" width="20" height="20" fill="non
 var AM={alberca:'Alberca',gimnasio:'Gimnasio',ninos:'Salón de niños',salon:'Salón de usos múltiples',bodega:'Bodega'};
 var FOTOS=[]; for(var q=1;q<=14;q++)FOTOS.push('img/props/tres-cumbres/'+(q<10?'0':'')+q+'.jpg');
 var P=[
- {id:'tres-cumbres-200',ref:'TUK-001',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe · 200 m²',p:'$10,300,000',zona:'Álvaro Obregón, CDMX',
+ {id:'tres-cumbres-200',ref:'TUK-001',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe · 200 m²',p:'$10,300,000',pn:10300000,zona:'Álvaro Obregón, CDMX',
   rec:'4',banos:'4 + 1 medio',est:'2',m2:'200 m²',amen:['alberca','gimnasio','ninos','salon','bodega'],
   extra:['200 m² de terreno','6 años de antigüedad'],
   desc:'Departamento amplio y moderno, bien orientado, con luz natural y sol en cada ventana. Estancia amplia con balcón, sala, comedor, espacio para TV o home office, cocina abierta con despensa y área de lavandería. Dos recámaras con baño y clóset, y la principal con vestidor y baño completo. Cuarto de servicio con baño, entrada principal y de servicio. Amenidades en la misma torre.',
   fotos:FOTOS,pdf:'fichas/ficha-tres-cumbres-200.pdf'},
- {id:'tres-cumbres-145',ref:'TUK-002',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe · 145 m²',p:'$7,890,000',zona:'Álvaro Obregón, CDMX',
+ {id:'tres-cumbres-145',ref:'TUK-002',t:'venta',n:'Departamento en Tres Cumbres, Santa Fe · 145 m²',p:'$7,890,000',pn:7890000,zona:'Álvaro Obregón, CDMX',
   rec:'2',banos:'2 + 1 medio',est:'2',m2:'145 m²',amen:['alberca','gimnasio','ninos','salon'],extra:['145 m² de terreno','6 años de antigüedad'],
   desc:'Departamento en el piso 1, con excelente luz y ventilación y bonita vista desde la estancia. Dos recámaras: la principal con vestidor y baño, y la segunda con baño. Medio baño en el área de servicio y cuarto de lavado. Cocina abierta integrada a la estancia, con espacio para sala, comedor y área de TV o estudio. Amenidades en la torre: alberca techada, gimnasio, salón de niños y salón de usos múltiples.',
   fotos:FOTOS,pdf:'fichas/ficha-tres-cumbres-145.pdf'},
- {t:'renta',n:'Departamento en Roma Norte',p:'$22,000 / mes',rec:'1',m2:'60 m²',muestra:1},
- {t:'venta',n:'Casa en Coyoacán',p:'$9,800,000',rec:'3',m2:'190 m²',muestra:1},
- {t:'renta',n:'Estudio en Polanco',p:'$18,500 / mes',m2:'45 m²',muestra:1}];
+ {t:'renta',n:'Departamento en Roma Norte',p:'$22,000 / mes',pn:22000,zona:'Cuauhtémoc, CDMX',rec:'1',m2:'60 m²',muestra:1},
+ {t:'venta',n:'Casa en Coyoacán',p:'$9,800,000',pn:9800000,zona:'Coyoacán, CDMX',rec:'3',m2:'190 m²',muestra:1},
+ {t:'renta',n:'Estudio en Polanco',p:'$18,500 / mes',pn:18500,zona:'Miguel Hidalgo, CDMX',m2:'45 m²',muestra:1}];
 var L=document.getElementById('lista'),m=document.getElementById('dlg'),wad=document.getElementById('wad'),cur=null;
 function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function stats(x){return ['rec','banos','est','m2'].filter(function(k){return x[k]}).map(function(k){return '<span class="st" title="'+({rec:'Recámaras',banos:'Baños',est:'Estacionamientos',m2:'Construcción'})[k]+'">'+ic(k)+esc(x[k])+'</span>'}).join('')}
-function draw(f){L.innerHTML=P.map(function(x,i){return [x,i]}).filter(function(a){return f=='todas'||a[0].t==f}).map(function(a){var x=a[0],i=a[1];
+var F={t:'todas',q:'',z:'',r:0,p:0};
+var PR={venta:[['3000000','Hasta $3 millones'],['5000000','Hasta $5 millones'],['8000000','Hasta $8 millones'],['10000000','Hasta $10 millones'],['15000000','Hasta $15 millones']],renta:[['15000','Hasta $15,000/mes'],['25000','Hasta $25,000/mes'],['40000','Hasta $40,000/mes']]};
+function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+(function(){var zs=[];P.forEach(function(x){if(x.zona&&zs.indexOf(x.zona)<0)zs.push(x.zona)});
+ document.getElementById('fz').innerHTML+=zs.map(function(z){return '<option>'+esc(z)+'</option>'}).join('')})();
+function card(x,i){
  var ph=x.fotos&&x.fotos.length?'<div class="ph" style="background-image:url(\''+esc(x.fotos[0])+'\')"></div>':'<div class="ph">Foto</div>';
- return '<div class="card" data-i="'+i+'">'+ph+'<div class="b"><span class="tag">'+(x.t=='venta'?'Venta':'Renta')+(x.muestra?' · muestra':'')+'</span><h3>'+esc(x.n)+'</h3><div class="price">'+esc(x.p)+'</div><div class="stats">'+stats(x)+'</div>'+(x.muestra?'':'<span class="ver">Ver detalles →</span>')+'</div></div>'}).join('')}
-draw('todas');
+ return '<div class="card" data-i="'+i+'">'+ph+'<div class="b"><span class="tag">'+(x.t=='venta'?'Venta':'Renta')+(x.muestra?' · muestra':'')+'</span><h3>'+esc(x.n)+'</h3><div class="price">'+esc(x.p)+'</div><div class="stats">'+stats(x)+'</div>'+(x.muestra?'':'<span class="ver">Ver detalles →</span>')+'</div></div>'}
+function draw(){
+ var q=norm(F.q),rows=P.map(function(x,i){return [x,i]}).filter(function(a){var x=a[0];
+  if(F.t!='todas'&&x.t!=F.t)return false;
+  if(F.z&&x.zona!=F.z)return false;
+  if(F.r&&!(parseInt(x.rec,10)>=F.r))return false;
+  if(F.p&&!(x.pn&&x.pn<=F.p))return false;
+  if(q&&norm(x.n+' '+(x.zona||'')+' '+(x.ref||'')).indexOf(q)<0)return false;
+  return true});
+ L.innerHTML=rows.length?rows.map(function(a){return card(a[0],a[1])}).join(''):'<div class="empty">No encontramos propiedades con esos filtros. <button type="button" class="lnk" onclick="clearF()">Limpiar filtros</button></div>';
+ document.getElementById('fc').textContent=rows.length+(rows.length==1?' propiedad':' propiedades');
+ document.getElementById('fx').hidden=!(F.t!='todas'||F.q||F.z||F.r||F.p)}
+function setPrecio(){var fp=document.getElementById('fp'),o=PR[F.t];
+ fp.hidden=!o;F.p=0;if(o)fp.innerHTML='<option value="0">Precio máximo</option>'+o.map(function(a){return '<option value="'+a[0]+'">'+a[1]+'</option>'}).join('')}
+function clearF(){F={t:'todas',q:'',z:'',r:0,p:0};document.getElementById('fq').value='';document.getElementById('fz').value='';document.getElementById('fr').value='0';
+ document.querySelectorAll('.tabs button').forEach(function(o){o.classList.toggle('on',o.dataset.f=='todas')});setPrecio();draw()}
+document.getElementById('fq').oninput=function(){F.q=this.value;draw()};
+document.getElementById('fz').onchange=function(){F.z=this.value;draw()};
+document.getElementById('fr').onchange=function(){F.r=+this.value;draw()};
+document.getElementById('fp').onchange=function(){F.p=+this.value;draw()};
+document.getElementById('fx').onclick=clearF;
+draw();
 function show(i){var x=P[i];if(x.muestra)return;cur=x;
  var mp=document.getElementById('mp'),mt=document.getElementById('mt');
  function foto(u){mp.style.backgroundImage=u?'url("'+u+'")':'';mp.textContent=u?'':'Fotos próximamente'}
@@ -211,7 +268,7 @@ document.getElementById('waf').onsubmit=function(e){e.preventDefault();
  var url='https://wa.me/'+WA+'?text='+encodeURIComponent(txt);
  var w=window.open(url,'_blank');if(!w)location.href=url;wad.close()};
 document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){
- document.querySelectorAll('.tabs button').forEach(function(o){o.classList.remove('on')});b.classList.add('on');draw(b.dataset.f)}});
+ document.querySelectorAll('.tabs button').forEach(function(o){o.classList.remove('on')});b.classList.add('on');F.t=b.dataset.f;setPrecio();draw()}});
 document.getElementById('f').onsubmit=function(e){e.preventDefault();var f=e.target,d=new FormData(f);d.append('_subject','Nuevo mensaje desde inmobiliariatuk.homes');d.append('_captcha','false');
  fetch(f.action.replace('formsubmit.co/','formsubmit.co/ajax/'),{method:'POST',body:d,headers:{'Accept':'application/json'}}).then(function(r){if(!r.ok)throw 0;f.reset();ok.textContent='Gracias, te contactamos pronto.';ok.hidden=false}).catch(function(){ok.textContent='No se pudo enviar. Escríbenos por WhatsApp o correo.';ok.hidden=false})};
 </script>
