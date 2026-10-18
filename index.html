@@ -83,12 +83,24 @@ footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16p
 .about img{width:100%;max-width:300px;border-radius:14px;justify-self:center}
 .about h3{margin:0}
 @media(min-width:760px){.about{grid-template-columns:300px 1fr}}
+.filters select#fo{max-width:220px}
+.owners{background:var(--navy);color:#fff;border-radius:16px;padding:26px 22px;margin-top:28px}
+.owners h2{margin:0 0 6px;color:#fff}.owners p{margin:0 0 16px;color:#d6e0ee}
+.owners .btn{background:#fff;color:var(--navy)}.owners .btn.alt{background:transparent;color:#fff;border-color:#fff}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:center;gap:8px;padding:8px 12px;background:#fff;border-top:1px solid var(--line)}
+.bar a{flex:1;max-width:200px;text-align:center;text-decoration:none;font-weight:800;font-size:14px;padding:9px 6px;border-radius:999px;background:var(--navy);color:#fff}
+.bar a.w{background:#1fa855}
+body{padding-bottom:58px}
+footer a{color:#fff}
+dialog.priv{max-width:640px;width:calc(100% - 32px);max-height:85vh;overflow:auto;border:0;border-radius:16px;padding:0}
+dialog.priv .m-b{padding:22px}
+@media(max-width:600px){nav a{margin-left:8px;font-size:12px;white-space:nowrap}header img{height:38px}.tabs{flex-wrap:wrap}.tabs button{padding:7px 14px}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
   <img src="img/logo-sm.png" alt="tük servicios inmobiliarios">
-  <nav><a href="#propiedades">Propiedades</a><a href="#quienes">Quiénes somos</a><a href="#contacto">Contacto</a></nav>
+  <nav><a href="#propiedades">Propiedades</a><a href="#propietarios">Propietarios</a><a href="#quienes">Quiénes somos</a><a href="#contacto">Contacto</a></nav>
 </div></header>
 
 <section class="hero"><div class="wrap">
@@ -101,19 +113,28 @@ footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16p
   <h2 id="propiedades">Propiedades</h2>
   <div class="note">Las dos primeras propiedades son reales; las demás son ejemplos de muestra. Escríbenos para conocer más.</div>
   <div class="tabs">
-    <button class="on" data-f="todas">Todas</button><button data-f="venta">Venta</button><button data-f="renta">Renta</button>
+    <button class="on" data-f="todas">Todas</button><button data-f="venta">Venta</button><button data-f="renta">Renta</button><button data-f="temporal">Rentas temporales</button>
   </div>
   <div class="filters">
     <input id="fq" type="search" placeholder="Buscar por zona o nombre" aria-label="Buscar">
     <select id="fz" aria-label="Zona"><option value="">Todas las zonas</option></select>
     <select id="fr" aria-label="Recámaras"><option value="0">Recámaras</option><option value="1">1 o más</option><option value="2">2 o más</option><option value="3">3 o más</option><option value="4">4 o más</option></select>
+    <select id="fb" aria-label="Baños"><option value="0">Baños</option><option value="1">1 o más</option><option value="2">2 o más</option><option value="3">3 o más</option><option value="4">4 o más</option></select>
+    <select id="fm" aria-label="Construcción"><option value="0">Construcción</option><option value="60">60 m² o más</option><option value="100">100 m² o más</option><option value="150">150 m² o más</option><option value="200">200 m² o más</option></select>
     <select id="fp" aria-label="Precio máximo" hidden></select>
+    <select id="fo" aria-label="Ordenar por"><option value="rec">Más recientes</option><option value="asc">Precio: menor a mayor</option><option value="desc">Precio: mayor a menor</option></select>
     <button type="button" id="fx" class="lnk" hidden>Limpiar filtros</button>
   </div>
   <p class="muted" id="fc" aria-live="polite"></p>
   <div class="grid" id="lista"></div>
 
   <div class="dream"><div><h3>¿No encuentras lo que buscas?</h3><p>Cuéntanos qué necesitas y te ayudamos a encontrar tu propiedad de ensueño.</p></div><a class="btn" href="#contacto" id="dreamb">Contáctame para buscar mi propiedad</a></div>
+
+  <section class="owners" id="propietarios">
+    <h2>¿Tienes una propiedad? Véndela o réntala con tük</h2>
+    <p>Te acompañamos con la promoción, las visitas y el trato con interesados. Cuéntanos de tu propiedad y te contactamos.</p>
+    <button class="btn" type="button" data-own="Vender mi propiedad">Quiero vender</button> <button class="btn alt" type="button" data-own="Rentar mi propiedad">Quiero rentar</button> <button class="btn alt" type="button" id="ownwa">Escribir por WhatsApp</button>
+  </section>
 
   <h2 id="quienes">Quiénes somos</h2>
   <div class="about">
@@ -164,7 +185,16 @@ footer{background:var(--navy-d);color:#cfd9e6;text-align:center;padding:28px 16p
    <button class="btn" type="submit">Abrir WhatsApp</button>
    <p class="muted" style="font-size:12px;margin:0">Guardamos tu nombre y la propiedad que te interesa solo para atenderte. No lo compartimos con terceros.</p></form></dialog>
 
-<footer>© tük · Servicios inmobiliarios · inmobiliariatuk.homes</footer>
+<footer>© tük · Servicios inmobiliarios · inmobiliariatuk.homes · <a href="#aviso" id="avl">Aviso de privacidad</a></footer>
+<div class="bar"><a class="w" href="https://wa.me/525585778281" id="barwa" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+525585778281">Llamar</a><a href="mailto:aliciadelaparra@gmail.com">Correo</a></div>
+<dialog id="priv" class="priv"><button class="x" aria-label="Cerrar" onclick="priv.close()">×</button><div class="m-b">
+<h3 style="margin-top:0">Aviso de privacidad</h3>
+<p><b>Responsable.</b> Alicia de la Parra (tük · Servicios inmobiliarios), contacto: aliciadelaparra@gmail.com, 55 8577 8281, Ciudad de México.</p>
+<p><b>Datos que recabamos.</b> Nombre, teléfono o correo, el tipo de operación que te interesa, tu mensaje y la propiedad por la que preguntas. No pedimos datos sensibles.</p>
+<p><b>Para qué los usamos.</b> Únicamente para responderte, darte información de propiedades y dar seguimiento a tu solicitud de compra, venta o renta.</p>
+<p><b>Con quién los compartimos.</b> No vendemos ni compartimos tus datos con terceros, salvo los proveedores técnicos que guardan o envían la información del sitio (almacenamiento y correo) o cuando la ley lo exija.</p>
+<p><b>Tus derechos.</b> Puedes acceder, rectificar o cancelar tus datos, u oponerte a su uso, escribiendo a aliciadelaparra@gmail.com.</p>
+<p><b>Cambios.</b> Si este aviso cambia, lo publicaremos en esta página.</p></div></dialog>
 
 <script>
 var WA='525585778281',SITE='https://inmobiliariatuk.homes/';
@@ -199,31 +229,42 @@ var P=[
 var L=document.getElementById('lista'),m=document.getElementById('dlg'),wad=document.getElementById('wad'),cur=null;
 function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function stats(x){return ['rec','banos','est','m2'].filter(function(k){return x[k]}).map(function(k){return '<span class="st" title="'+({rec:'Recámaras',banos:'Baños',est:'Estacionamientos',m2:'Construcción'})[k]+'">'+ic(k)+esc(x[k])+'</span>'}).join('')}
-var F={t:'todas',q:'',z:'',r:0,p:0};
+var F={t:'todas',q:'',z:'',r:0,b:0,m:0,p:0,o:'rec'};
 var PR={venta:[['3000000','Hasta $3 millones'],['5000000','Hasta $5 millones'],['8000000','Hasta $8 millones'],['10000000','Hasta $10 millones'],['15000000','Hasta $15 millones']],renta:[['15000','Hasta $15,000/mes'],['25000','Hasta $25,000/mes'],['40000','Hasta $40,000/mes']]};
 function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
 (function(){var zs=[];P.forEach(function(x){if(x.zona&&zs.indexOf(x.zona)<0)zs.push(x.zona)});
  document.getElementById('fz').innerHTML+=zs.map(function(z){return '<option>'+esc(z)+'</option>'}).join('')})();
 function card(x,i){
  var ph=x.fotos&&x.fotos.length?'<div class="ph" style="background-image:url(\''+esc(x.fotos[0])+'\')"></div>':'<div class="ph">Foto</div>';
- return '<div class="card" data-i="'+i+'">'+ph+'<div class="b"><span class="tag">'+(x.t=='venta'?'Venta':'Renta')+(x.muestra?' · muestra':'')+'</span><h3>'+esc(x.n)+'</h3><div class="price">'+esc(x.p)+'</div><div class="stats">'+stats(x)+'</div>'+(x.muestra?'':'<span class="ver">Ver detalles →</span>')+'</div></div>'}
+ return '<div class="card" data-i="'+i+'">'+ph+'<div class="b"><span class="tag">'+(x.t=='venta'?'Venta':x.t=='temporal'?'Renta temporal':'Renta')+(x.muestra?' · muestra':'')+'</span><h3>'+esc(x.n)+'</h3><div class="price">'+esc(x.p)+'</div><div class="stats">'+stats(x)+'</div>'+(x.muestra?'':'<span class="ver">Ver detalles →</span>')+'</div></div>'}
 function draw(){
  var q=norm(F.q),rows=P.map(function(x,i){return [x,i]}).filter(function(a){var x=a[0];
   if(F.t!='todas'&&x.t!=F.t)return false;
   if(F.z&&x.zona!=F.z)return false;
   if(F.r&&!(parseInt(x.rec,10)>=F.r))return false;
+  if(F.b&&!(parseInt(x.banos,10)>=F.b))return false;
+  if(F.m&&!(parseInt(x.m2,10)>=F.m))return false;
   if(F.p&&!(x.pn&&x.pn<=F.p))return false;
   if(q&&norm(x.n+' '+(x.zona||'')+' '+(x.ref||'')).indexOf(q)<0)return false;
   return true});
- L.innerHTML=rows.length?rows.map(function(a){return card(a[0],a[1])}).join(''):'<div class="empty">No encontramos propiedades con esos filtros. <button type="button" class="lnk" onclick="clearF()">Limpiar filtros</button></div>';
+ if(F.o!='rec')rows.sort(function(a,b){return F.o=='asc'?(a[0].pn||0)-(b[0].pn||0):(b[0].pn||0)-(a[0].pn||0)});
+ L.innerHTML=rows.length?rows.map(function(a){return card(a[0],a[1])}).join(''):(F.t=='temporal'?'<div class="empty">Por ahora no tenemos rentas temporales publicadas. Escríbenos y te avisamos cuando haya. <button type="button" class="lnk" onclick="askWA(null)">Escribir por WhatsApp</button></div>':'<div class="empty">No encontramos propiedades con esos filtros. <button type="button" class="lnk" onclick="clearF()">Limpiar filtros</button></div>');
  document.getElementById('fc').textContent=rows.length+(rows.length==1?' propiedad':' propiedades');
- document.getElementById('fx').hidden=!(F.t!='todas'||F.q||F.z||F.r||F.p)}
+ document.getElementById('fx').hidden=!(F.t!='todas'||F.q||F.z||F.r||F.b||F.m||F.p||F.o!='rec')}
 function setPrecio(){var fp=document.getElementById('fp'),o=PR[F.t];
  fp.hidden=!o;F.p=0;if(o)fp.innerHTML='<option value="0">Precio máximo</option>'+o.map(function(a){return '<option value="'+a[0]+'">'+a[1]+'</option>'}).join('')}
-function clearF(){F={t:'todas',q:'',z:'',r:0,p:0};document.getElementById('fq').value='';document.getElementById('fz').value='';document.getElementById('fr').value='0';
+function clearF(){F={t:'todas',q:'',z:'',r:0,b:0,m:0,p:0,o:'rec'};document.getElementById('fq').value='';document.getElementById('fz').value='';document.getElementById('fr').value='0';document.getElementById('fb').value='0';document.getElementById('fm').value='0';document.getElementById('fo').value='rec';
  document.querySelectorAll('.tabs button').forEach(function(o){o.classList.toggle('on',o.dataset.f=='todas')});setPrecio();draw()}
 document.getElementById('fq').oninput=function(){F.q=this.value;draw()};
 document.getElementById('fz').onchange=function(){F.z=this.value;draw()};
+document.getElementById('fb').onchange=function(){F.b=+this.value;draw()};
+document.getElementById('fm').onchange=function(){F.m=+this.value;draw()};
+document.getElementById('fo').onchange=function(){F.o=this.value;draw()};
+document.querySelectorAll('[data-own]').forEach(function(b){b.onclick=function(){var i=document.getElementById('i');i.value=b.dataset.own;document.getElementById('contacto').scrollIntoView({behavior:'smooth'});document.getElementById('n').focus({preventScroll:true})}});
+document.getElementById('ownwa').onclick=function(){askWA(null)};
+document.getElementById('barwa').onclick=function(e){e.preventDefault();askWA(null)};
+document.getElementById('avl').onclick=function(e){e.preventDefault();priv.showModal()};
+priv.onclick=function(e){if(e.target===priv)priv.close()};
 document.getElementById('fr').onchange=function(){F.r=+this.value;draw()};
 document.getElementById('fp').onchange=function(){F.p=+this.value;draw()};
 document.getElementById('fx').onclick=clearF;
