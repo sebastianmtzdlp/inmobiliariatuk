@@ -14,6 +14,9 @@
 <meta property="og:image" content="https://inmobiliariatuk.homes/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#1b3a5f;--navy-d:#12273f;--bg:#f7f9fc;--card:#fff;--line:#dfe6ef;--muted:#5d6b7e}
 *{box-sizing:border-box}
@@ -109,6 +112,74 @@ footer a{color:#fff}
 dialog.priv{max-width:640px;width:calc(100% - 32px);max-height:85vh;overflow:auto;border:0;border-radius:16px;padding:0}
 dialog.priv .m-b{padding:22px}
 @media(max-width:600px){.hs select{flex:1 1 100%;font-size:16px;padding:13px 14px}nav a{margin-left:8px;font-size:12px;white-space:nowrap}header img{height:38px}.tabs{flex-wrap:wrap}.tabs button{padding:7px 14px}}
+/* ===== Diseño de la propuesta (cremas, Fraunces + Inter, buscador en tarjeta) ===== */
+:root{--serif:"Fraunces",Georgia,serif;--sans:"Inter",system-ui,sans-serif}
+body{font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
+.wrap{max-width:1180px;padding:0 22px}
+header{background:var(--bg);border-bottom:0;box-shadow:none}
+header .wrap{height:72px}
+nav a{margin-left:24px;color:var(--muted);font-weight:500;font-size:14px}
+nav a:hover{color:var(--navy-d)}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.6vw,40px);color:var(--navy);letter-spacing:0;margin:88px 0 28px}
+h2::after{display:none}
+.hero{padding:48px 0 72px;text-align:left;color:var(--navy);background:none}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,5.6vw,70px);line-height:1.04;letter-spacing:-.02em;max-width:18ch;margin:0}
+.hero p{margin:18px 0 0;color:var(--muted);font-size:18px;max-width:52ch}
+.hs{margin:36px 0 0;max-width:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:1.3fr 1fr 1fr auto;gap:10px;box-shadow:0 10px 30px rgba(27,58,95,.06)}
+.hs label{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 10px 0;font-weight:500}
+.hs select{width:100%;border:0;background:transparent;font:500 15px var(--sans);color:var(--navy-d);padding:4px 6px 10px;outline:none}
+.hs .btn{border-radius:12px;padding:0 24px;min-height:48px;font:600 15px var(--sans)}
+.zones{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.zones button{border:1px solid var(--line);background:var(--card);padding:6px 12px;border-radius:999px;font:13px var(--sans);color:var(--muted);cursor:pointer}
+.zones button:hover{color:var(--navy);border-color:var(--navy)}
+.hero .lk{color:var(--navy);font-weight:600;font-size:15px;margin-top:22px}
+.btn{font-family:var(--sans);font-weight:600}
+.tabs button,.lnk{font-weight:600}
+.card{border-radius:16px;box-shadow:none}
+.card .ph{height:auto;aspect-ratio:4/3}
+.card div.b{padding:18px 18px 20px}
+.card h3{font-weight:600;font-size:17px}
+.price{font:600 20px var(--sans);color:var(--navy)}
+.card .ver{font-weight:600}
+.dream{border-radius:16px;margin-top:40px}
+.dream h3{font-family:var(--serif);font-weight:500;font-size:22px}
+.owners{border-radius:24px;padding:56px 40px;margin-top:88px}
+.owners h2{color:var(--bg);margin:0 0 12px}
+.owners>p{color:#cfdbe6;max-width:56ch;margin:0 0 28px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-bottom:36px}
+.steps b{font-family:var(--serif);font-size:36px;color:#F0DCA0;font-weight:500}
+.steps h3{font-size:18px;font-weight:600;margin:8px 0}
+.steps p{color:#cfdbe6;font-size:15px;margin:0}
+.owners .btn{border-radius:999px}
+.advisor{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:center}
+.advisor img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px}
+.advisor h2{margin-top:0}
+.advisor p{color:var(--muted);margin:0 0 14px;max-width:56ch}
+.stat{display:flex;gap:36px;margin-top:24px}
+.stat b{font-family:var(--serif);font-size:40px;color:var(--navy);font-weight:500;display:block;line-height:1.2}
+.stat span{font-size:13px;color:var(--muted)}
+.contact{grid-template-columns:1fr 1fr;gap:48px;margin-bottom:88px}
+.contact .box{background:none;border:0;padding:0}
+.wa-line{font-size:16px;margin:0 0 16px}
+.wa-line a{color:var(--navy);font-weight:600}
+.contact form input,.contact form select,.contact form textarea{padding:14px;border-radius:12px;font:15px var(--sans);color:var(--navy-d)}
+.contact form .btn{border-radius:12px;padding:14px}
+.contact label{font-weight:500}
+footer{background:none;color:var(--muted);border-top:1px solid var(--line);font-size:13px;padding:28px 0;text-align:left}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer a{color:var(--muted)}
+.wa{position:fixed;right:18px;bottom:18px;z-index:6;background:#1FA855;color:#fff;padding:12px 18px;border-radius:999px;text-decoration:none;font-weight:600;font-size:14px;box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.bar{display:none}
+body{padding-bottom:0}
+@media (max-width:860px){
+  nav a{display:none}
+  .hs,.steps,.advisor,.contact{grid-template-columns:1fr}
+  .owners{padding:40px 24px}
+  .wa{display:none}
+  .bar{display:flex}
+  body{padding-bottom:58px}
+}
 </style>
 </head>
 <body>
@@ -118,16 +189,20 @@ dialog.priv .m-b{padding:22px}
 </div></header>
 
 <section class="hero"><div class="wrap">
-  <h1>Encuentra tu próximo hogar en la Ciudad de México</h1>
-  <p>Propiedades en venta y renta, con acompañamiento de principio a fin.</p>
-  <form class="hs" id="hs" onsubmit="return false"><select id="hso" aria-label="Operación"><option value="todas">Comprar o rentar</option><option value="venta">Comprar</option><option value="renta">Rentar</option></select><select id="hsz" aria-label="Zona"><option value="">Todas las zonas</option></select><button class="btn" id="hsb" type="submit">Buscar</button></form>
+  <h1>Comprar, vender o rentar en CDMX, con una asesora que te acompaña.</h1>
+  <p>12 años ayudando a familias y propietarios a encontrar la propiedad correcta y cerrar bien.</p>
+  <form class="hs" id="hs" onsubmit="return false">
+    <div><label for="hso">Operación</label><select id="hso"><option value="todas">Comprar o rentar</option><option value="venta">Comprar</option><option value="renta">Rentar</option></select></div>
+    <div><label for="hsz">Zona</label><select id="hsz"><option value="">Todas las zonas</option></select></div>
+    <div><label for="hsp">Presupuesto</label><select id="hsp"><option value="0">Cualquier precio</option></select></div>
+    <button class="btn" id="hsb" type="submit">Buscar</button>
+  </form>
+  <div class="zones" id="zones" aria-label="Zonas con propiedades"></div>
   <a class="lk" href="#contacto">¿Prefieres que te ayudemos a buscar? Contáctanos →</a>
 </div></section>
-<div class="trust"><div class="wrap"><div><b>12 años</b><span>de experiencia</span></div><div><b>CDMX</b><span>propiedades en venta y renta</span></div><div><b>Atención personal</b><span>de principio a fin</span></div><div><b>Visitas y fichas</b><span>información clara de cada inmueble</span></div></div></div>
 
 <main class="wrap">
   <h2 id="propiedades">Propiedades</h2>
-  <div class="note">Las dos primeras propiedades son reales; las demás son ejemplos de muestra. Escríbenos para conocer más.</div>
   <div class="tabs">
     <button class="on" data-f="todas">Todas</button><button data-f="venta">Venta</button><button data-f="renta">Renta</button><button data-f="temporal">Rentas temporales</button>
   </div>
@@ -147,34 +222,38 @@ dialog.priv .m-b{padding:22px}
   <div class="dream"><div><h3>¿No encuentras lo que buscas?</h3><p>Cuéntanos qué necesitas y te ayudamos a encontrar tu propiedad de ensueño.</p></div><a class="btn" href="#contacto" id="dreamb">Contáctame para buscar mi propiedad</a></div>
 
   <section class="owners" id="propietarios">
-    <h2>¿Tienes una propiedad? Véndela o réntala con tük</h2>
-    <p>Te acompañamos con la promoción, las visitas y el trato con interesados. Cuéntanos de tu propiedad y te contactamos.</p>
-    <button class="btn" type="button" data-own="Vender mi propiedad">Quiero vender</button> <button class="btn alt" type="button" data-own="Rentar mi propiedad">Quiero rentar</button> <button class="btn alt" type="button" id="ownwa">Escribir por WhatsApp</button>
+    <h2>¿Quieres vender o rentar tu propiedad?</h2>
+    <p>Con tu primer contacto ves todo lo que incluye el proceso. Sin compromiso.</p>
+    <div class="steps">
+      <div><b>01</b><h3>Primer contacto</h3><p>Nos escribes por WhatsApp o con el formulario. Sin compromiso.</p></div>
+      <div><b>02</b><h3>Te explicamos todo</h3><p>Te contamos cómo funciona el proceso, paso a paso, y qué incluye.</p></div>
+      <div><b>03</b><h3>Tú decides</h3><p>Si te convence, seguimos. Si no, no pasa nada.</p></div>
+    </div>
+    <button class="btn" type="button" id="ownwa">Platicar por WhatsApp</button> <button class="btn alt" type="button" data-own="Vender mi propiedad">Quiero vender</button> <button class="btn alt" type="button" data-own="Rentar mi propiedad">Quiero rentar</button>
   </section>
 
-  <h2 id="quienes">Quiénes somos</h2>
-  <div class="about">
+  <section id="quienes" style="margin-top:88px">
+  <div class="advisor">
     <img src="img/alicia.jpg" alt="Alicia de la Parra" loading="lazy">
     <div>
-      <h3>Alicia de la Parra</h3>
-      <p class="muted">Asesora inmobiliaria · 12 años de experiencia</p>
-      <p>En tük acompañamos a cada familia de principio a fin, ya sea para comprar, vender o rentar en la Ciudad de México. Con 12 años de experiencia, Alicia te escucha, entiende lo que necesitas y te guía con trato cercano y claridad en cada paso.</p>
-      <p>Aquí no eres un número: cada propiedad y cada persona recibe atención personal.</p>
-      <a class="btn" href="#contacto">Hablemos</a>
+      <h2>Alicia de la Parra</h2>
+      <p>Asesora inmobiliaria en Ciudad de México desde hace 12 años. Trabajo con calma, con cifras reales y con una sola meta: que tomes una buena decisión.</p>
+      <p>Atiendo compras, ventas, rentas y propietarios. Si ya tienes en mente algo concreto, escríbeme y lo vemos juntos.</p>
+      <div class="stat">
+        <div><b>12</b><span>años de experiencia</span></div>
+        <div><b>CDMX</b><span>zona de trabajo</span></div>
+      </div>
     </div>
   </div>
+  </section>
 
-  <h2 id="contacto">Contacto</h2>
+  <h2 id="contacto">Platiquemos</h2>
   <div class="contact">
     <div class="box">
-      <h3 style="margin-top:0">Escríbenos</h3>
-      <p><a class="btn" id="wag" href="https://wa.me/525585778281" target="_blank" rel="noopener">WhatsApp</a></p>
-      <p>Teléfono: <a href="tel:+525585778281">55 8577 8281</a></p>
-      <p>Correo: <a href="mailto:aliciadelaparra@gmail.com">aliciadelaparra@gmail.com</a></p>
-      <p class="muted">Ciudad de México</p>
+      <p class="wa-line">Lo más rápido es escribir por <a id="wag" href="https://wa.me/525585778281" target="_blank" rel="noopener">WhatsApp</a>.</p>
+      <p class="muted" style="font-size:16px">También puedes llamar al <a href="tel:+525585778281">55 8577 8281</a> o escribir a <a href="mailto:aliciadelaparra@gmail.com">aliciadelaparra@gmail.com</a>.</p>
     </div>
     <div class="box">
-      <h3 style="margin-top:0">Cuéntanos qué buscas</h3>
       <form id="f" action="https://formsubmit.co/aliciadelaparra@gmail.com" method="post">
         <div><label for="n">Nombre</label><input id="n" name="nombre" required></div>
         <div><label for="t">Teléfono o correo</label><input id="t" name="contacto" required></div>
@@ -201,7 +280,8 @@ dialog.priv .m-b{padding:22px}
    <button class="btn" type="submit">Abrir WhatsApp</button>
    <p class="muted" style="font-size:12px;margin:0">Guardamos tu nombre y la propiedad que te interesa solo para atenderte. No lo compartimos con terceros.</p></form></dialog>
 
-<footer>© tük · Servicios inmobiliarios · inmobiliariatuk.homes · <a href="#aviso" id="avl">Aviso de privacidad</a></footer>
+<footer><div class="wrap"><span>© tük · Servicios inmobiliarios · inmobiliariatuk.homes</span><a href="#aviso" id="avl">Aviso de privacidad</a></div></footer>
+<a class="wa" href="https://wa.me/525585778281" id="wafl" target="_blank" rel="noopener">WhatsApp</a>
 <div class="bar"><a class="w" href="https://wa.me/525585778281" id="barwa" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+525585778281">Llamar</a><a href="mailto:aliciadelaparra@gmail.com">Correo</a></div>
 <dialog id="priv" class="priv"><button class="x" aria-label="Cerrar" onclick="priv.close()">×</button><div class="m-b">
 <h3 style="margin-top:0">Aviso de privacidad</h3>
@@ -239,9 +319,7 @@ var P=[
   rec:'2',banos:'2 + 1 medio',est:'2',m2:'145 m²',amen:['alberca','gimnasio','ninos','salon'],extra:['145 m² de terreno','6 años de antigüedad'],
   desc:'Departamento en el piso 1, con excelente luz y ventilación y bonita vista desde la estancia. Dos recámaras: la principal con vestidor y baño, y la segunda con baño. Medio baño en el área de servicio y cuarto de lavado. Cocina abierta integrada a la estancia, con espacio para sala, comedor y área de TV o estudio. Amenidades en la torre: alberca techada, gimnasio, salón de niños y salón de usos múltiples.',
   fotos:FOTOS,pdf:'fichas/ficha-tres-cumbres-145.pdf'},
- {t:'renta',n:'Departamento en Roma Norte',p:'$22,000 / mes',pn:22000,zona:'Cuauhtémoc, CDMX',rec:'1',m2:'60 m²',muestra:1},
- {t:'venta',n:'Casa en Coyoacán',p:'$9,800,000',pn:9800000,zona:'Coyoacán, CDMX',rec:'3',m2:'190 m²',muestra:1},
- {t:'renta',n:'Estudio en Polanco',p:'$18,500 / mes',pn:18500,zona:'Miguel Hidalgo, CDMX',m2:'45 m²',muestra:1}];
+ ];
 var L=document.getElementById('lista'),m=document.getElementById('dlg'),wad=document.getElementById('wad'),cur=null;
 function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function stats(x){return ['rec','banos','est','m2'].filter(function(k){return x[k]}).map(function(k){return '<span class="st" title="'+({rec:'Recámaras',banos:'Baños',est:'Estacionamientos',m2:'Construcción'})[k]+'">'+ic(k)+esc(x[k])+'</span>'}).join('')}
@@ -278,13 +356,19 @@ document.getElementById('fm').onchange=function(){F.m=+this.value;draw()};
 document.getElementById('fo').onchange=function(){F.o=this.value;draw()};
 document.getElementById('hsz').innerHTML=document.getElementById('fz').innerHTML;
 document.getElementById('hs').onsubmit=function(e){e.preventDefault();clearF();
- var t=document.getElementById('hso').value,z=document.getElementById('hsz').value;
+ var t=document.getElementById('hso').value,z=document.getElementById('hsz').value,pp=+document.getElementById('hsp').value;
  document.querySelector('.tabs button[data-f='+t+']').click();
- if(z){F.z=z;document.getElementById('fz').value=z;draw()}
+ if(z){F.z=z;document.getElementById('fz').value=z}
+ if(pp&&PR[t]){F.p=pp;document.getElementById('fp').value=String(pp)}
+ draw();
  document.getElementById('propiedades').scrollIntoView({behavior:'smooth'})};
 document.querySelectorAll('[data-own]').forEach(function(b){b.onclick=function(){var i=document.getElementById('i');i.value=b.dataset.own;document.getElementById('contacto').scrollIntoView({behavior:'smooth'});document.getElementById('n').focus({preventScroll:true})}});
 document.getElementById('ownwa').onclick=function(){askWA(null)};
 document.getElementById('barwa').onclick=function(e){e.preventDefault();askWA(null)};
+document.getElementById('wafl').onclick=function(e){e.preventDefault();askWA(null)};
+document.getElementById('hso').onchange=function(){var o=PR[this.value]||[];document.getElementById('hsp').innerHTML='<option value="0">Cualquier precio</option>'+o.map(function(a){return '<option value="'+a[0]+'">'+a[1]+'</option>'}).join('')};
+document.getElementById('zones').innerHTML=[].slice.call(document.getElementById('fz').options).filter(function(o){return o.value}).map(function(o){return '<button type="button" data-z="'+esc(o.value)+'">'+esc(o.value)+'</button>'}).join('');
+document.querySelectorAll('#zones button').forEach(function(b){b.onclick=function(){document.getElementById('hsz').value=b.dataset.z;document.getElementById('hsp').value='0';document.getElementById('hs').onsubmit(new Event('submit'))}});
 document.getElementById('avl').onclick=function(e){e.preventDefault();priv.showModal()};
 priv.onclick=function(e){if(e.target===priv)priv.close()};
 document.getElementById('fr').onchange=function(){F.r=+this.value;draw()};
